@@ -4,6 +4,7 @@ import (
 	"crypto/ed25519"
 	"crypto/x509"
 	"encoding/pem"
+	"errors"
 	"testing"
 	"time"
 
@@ -27,7 +28,7 @@ func TestJwtAuth_Encode(t *testing.T) {
 		}, {
 			name: "with biz id",
 			customClaims: jwt.MapClaims{
-				BIZ_ID_PARAM_NAME: float64(100000000),
+				BizIdParamName: float64(100000000),
 			},
 			wantErr: nil,
 		},
@@ -61,7 +62,7 @@ func TestJwtAuth_Decode(t *testing.T) {
 	tcs := []struct {
 		name      string
 		tokenFunc func(t *testing.T) string
-		wantErr   bool
+		wantErr   error
 	}{
 		{
 			name: "validate",
@@ -75,7 +76,7 @@ func TestJwtAuth_Decode(t *testing.T) {
 				assert.NoError(t, err)
 				return validToken
 			},
-			wantErr: false,
+			wantErr: nil,
 		}, {
 			name: "expired",
 			tokenFunc: func(t *testing.T) string {
@@ -87,7 +88,7 @@ func TestJwtAuth_Decode(t *testing.T) {
 
 				return expiredToken
 			},
-			wantErr: true,
+			wantErr: jwt.ErrTokenExpired,
 		},
 	}
 
@@ -96,8 +97,8 @@ func TestJwtAuth_Decode(t *testing.T) {
 			token := tc.tokenFunc(t)
 			c, err := jwtAuth.Decode(token)
 
-			if tc.wantErr {
-				assert.NotNil(t, err)
+			if err != nil {
+				assert.True(t, errors.Is(err, tc.wantErr))
 				return
 			}
 
