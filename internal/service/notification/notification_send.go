@@ -19,7 +19,7 @@ type DefaultSendService struct {
 	sendStrategy sendstrategy.SendStrategy
 }
 
-// Send send notification immediately
+// Send sync send notification immediately
 func (s *DefaultSendService) Send(ctx context.Context, n domain.Notification) (domain.SendResp, error) {
 	resp := domain.SendResp{
 		Status: domain.SendStatusFailed,

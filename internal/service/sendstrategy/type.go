@@ -8,8 +8,9 @@ import (
 	"github.com/JrMarcco/jotice/internal/errs"
 )
 
+//go:generate mockgen -source=./type.go -destination=./mock/send_strategy.mock.go -package=sendstrategymock -type=SendStrategy
 type SendStrategy interface {
-	// Send send notification use strategy in the notification's strategy configuration.
+	// Send notification use strategy in the notification's strategy configuration.
 	Send(ctx context.Context, n domain.Notification) (domain.SendResp, error)
 	// BatchSend batch sends notifications.
 	BatchSend(ctx context.Context, ns []domain.Notification) ([]domain.SendResp, error)

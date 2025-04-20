@@ -4,7 +4,7 @@ import (
 	"github.com/JrMarcco/jotice/internal/repository"
 )
 
-type BizConfigService interface{}
+type Service interface{}
 
 type DefaultBizConfigService struct {
 	repo repository.BizConfigRepo
