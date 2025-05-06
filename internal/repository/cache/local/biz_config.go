@@ -7,9 +7,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-var _ cache.ConfigCache = (*LConfigCache)(nil)
+var _ cache.BizConfigCache = (*LBizConfigCache)(nil)
 
-type LConfigCache struct {
+// LBizConfigCache is a local cache implementation for biz config.
+type LBizConfigCache struct {
 	c      *gcache.Cache
 	rdb    redis.Cmdable
 	logger logger.Logger

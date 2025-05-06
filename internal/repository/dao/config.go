@@ -1,5 +1,5 @@
 package dao
 
-type BizConfigDAO interface{}
+type ConfigDAO struct{}
 
 type DefaultBizConfigDAO struct{}

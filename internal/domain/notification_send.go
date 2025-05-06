@@ -75,13 +75,17 @@ func (c SendStrategyConfig) CalcTimeWindow() (start, end time.Time) {
 	}
 }
 
-type SendResp struct {
+type SendResult struct {
 	NotificationId uint64
 	Status         SendStatus
 }
 
+type SendResp struct {
+	Result SendResult
+}
+
 type BatchSendResp struct {
-	Results []SendResp
+	Results []SendResult
 }
 
 type BatchAsyncSendResp struct {

@@ -6,9 +6,10 @@ import (
 	"github.com/redis/go-redis/v9"
 )
 
-var _ cache.ConfigCache = (*RCacheConfig)(nil)
+var _ cache.BizConfigCache = (*RBizCacheConfig)(nil)
 
-type RCacheConfig struct {
+// RBizCacheConfig is a redis cache implementation for biz config.
+type RBizCacheConfig struct {
 	rdb    *redis.Cmdable
 	logger logger.Logger
 }
