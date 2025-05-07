@@ -2,6 +2,7 @@ package sendstrategy
 
 import (
 	"context"
+
 	"github.com/JrMarcco/jotice/internal/repository"
 
 	"github.com/JrMarcco/jotice/internal/domain"
@@ -17,6 +18,6 @@ func (s *ImmediateSendStrategy) Send(ctx context.Context, n domain.Notification)
 	panic("not implemented")
 }
 
-func (s *ImmediateSendStrategy) BatchSend(ctx context.Context, ns []domain.Notification) ([]domain.SendResp, error) {
+func (s *ImmediateSendStrategy) BatchSend(ctx context.Context, ns []domain.Notification) (domain.BatchSendResp, error) {
 	panic("not implemented")
 }

@@ -13,7 +13,7 @@ type SendStrategy interface {
 	// Send notification use strategy in the notification's strategy configuration.
 	Send(ctx context.Context, n domain.Notification) (domain.SendResp, error)
 	// BatchSend batch sends notifications.
-	BatchSend(ctx context.Context, ns []domain.Notification) ([]domain.SendResp, error)
+	BatchSend(ctx context.Context, ns []domain.Notification) (domain.BatchSendResp, error)
 }
 
 var _ SendStrategy = (*Dispatcher)(nil)
@@ -28,9 +28,9 @@ func (d *Dispatcher) Send(ctx context.Context, n domain.Notification) (domain.Se
 	return d.chooseStrategy(n).Send(ctx, n)
 }
 
-func (d *Dispatcher) BatchSend(ctx context.Context, ns []domain.Notification) ([]domain.SendResp, error) {
+func (d *Dispatcher) BatchSend(ctx context.Context, ns []domain.Notification) (domain.BatchSendResp, error) {
 	if len(ns) == 0 {
-		return nil, fmt.Errorf("%w: no notifications to send", errs.ErrInvalidParam)
+		return domain.BatchSendResp{}, fmt.Errorf("%w: no notifications to send", errs.ErrInvalidParam)
 	}
 
 	return d.chooseStrategy(ns[0]).BatchSend(ctx, ns)

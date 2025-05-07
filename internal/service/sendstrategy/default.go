@@ -15,6 +15,6 @@ func (s *DefaultSendStrategy) Send(ctx context.Context, n domain.Notification) (
 	panic("not implemented")
 }
 
-func (s *DefaultSendStrategy) BatchSend(ctx context.Context, ns []domain.Notification) ([]domain.SendResp, error) {
+func (s *DefaultSendStrategy) BatchSend(ctx context.Context, ns []domain.Notification) (domain.BatchSendResp, error) {
 	panic("not implemented")
 }

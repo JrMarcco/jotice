@@ -3,6 +3,7 @@ package notification
 import (
 	"context"
 	"fmt"
+
 	"golang.org/x/sync/errgroup"
 
 	"github.com/JrMarcco/jotice/internal/domain"
@@ -22,7 +23,9 @@ type DefaultSendService struct {
 // Send sync send notification immediately
 func (s *DefaultSendService) Send(ctx context.Context, n domain.Notification) (domain.SendResp, error) {
 	resp := domain.SendResp{
-		Status: domain.SendStatusFailed,
+		Result: domain.SendResult{
+			Status: domain.SendStatusFailed,
+		},
 	}
 
 	if err := n.Validate(); err != nil {
@@ -85,7 +88,7 @@ func (s *DefaultSendService) BatchSend(ctx context.Context, ns []domain.Notifica
 	}
 
 	results, err := s.sendStrategy.BatchSend(ctx, ns)
-	resp.Results = results
+	resp.Results = results.Results
 	if err != nil {
 		return resp, fmt.Errorf("%w, cause of: %w", errs.ErrSendNotificationFailed, err)
 	}

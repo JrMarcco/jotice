@@ -3,6 +3,8 @@ module github.com/JrMarcco/jotice
 go 1.24
 
 require (
+	github.com/JrMarcco/easy-kit v0.0.1
+	github.com/JrMarcco/jotice-api v0.0.3
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/redis/go-redis/v9 v9.7.3
@@ -19,8 +21,6 @@ require (
 )
 
 require (
-	github.com/JrMarcco/easy-kit v0.0.1 // indirect
-	github.com/JrMarcco/jotice-api v0.0.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
