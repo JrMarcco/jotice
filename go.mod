@@ -5,6 +5,7 @@ go 1.24
 require (
 	github.com/JrMarcco/easy-kit v0.0.1
 	github.com/JrMarcco/jotice-api v0.0.3
+	github.com/confluentinc/confluent-kafka-go/v2 v2.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.2
 	github.com/patrickmn/go-cache v2.1.0+incompatible
 	github.com/redis/go-redis/v9 v9.8.0
@@ -19,7 +20,7 @@ require (
 	golang.org/x/sync v0.14.0
 	google.golang.org/grpc v1.72.0
 	gorm.io/driver/postgres v1.5.11
-	gorm.io/gorm v1.26.0
+	gorm.io/gorm v1.26.1
 )
 
 require (
@@ -57,5 +58,3 @@ require (
 	google.golang.org/protobuf v1.36.6 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
-
-replace github.com/golang/protobuf v1.5.4 => google.golang.org/protobuf v1.36.6
