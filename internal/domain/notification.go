@@ -24,7 +24,7 @@ func (s SendStatus) String() string {
 
 type Notification struct {
 	Id             uint64
-	BizId          int64
+	BizId          uint64
 	Key            string
 	Receivers      []string
 	Channel        Channel

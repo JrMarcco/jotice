@@ -2,6 +2,7 @@ package channel
 
 import (
 	"context"
+
 	"github.com/JrMarcco/jotice/internal/domain"
 	"github.com/JrMarcco/jotice/internal/errs"
 )

@@ -2,6 +2,7 @@ package sender
 
 import (
 	"context"
+
 	"github.com/JrMarcco/jotice/internal/domain"
 	"github.com/JrMarcco/jotice/internal/pkg/logger"
 	"github.com/JrMarcco/jotice/internal/repository"
