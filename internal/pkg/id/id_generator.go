@@ -38,6 +38,13 @@ func NewGenerator() *Generator {
 	}
 }
 
+// NextId returns the next id.
+//
+// The id is composed of:
+//   - 41 bits for timestamp, the timestamp is the milliseconds of the current time minus the epoch time.
+//   - 10 bits for hash, the hash is the hash value of the bizId and bizKey.
+//     bizId and bizKey decide the database sharding.
+//   - 12 bits for a sequence, the sequence is the auto incr sequence number of the id.
 func (g *Generator) NextId(bizId int64, bizKey string) (int64, error) {
 	timestamp := time.Now().UnixMilli() - epochMillis
 	hashVal, err := hash.Hash(bizId, bizKey)
@@ -48,4 +55,17 @@ func (g *Generator) NextId(bizId int64, bizKey string) (int64, error) {
 
 	nextId := (timestamp&timestampMask)<<timestampShift | (hashVal&hashMask)<<hashShift | (seq & sequenceMask)
 	return nextId, nil
+}
+
+func ExtractTimestamp(id int64) time.Time {
+	timestamp := (id >> timestampShift) % timestampMask
+	return time.Unix(0, (timestamp+epochMillis)*int64(time.Millisecond))
+}
+
+func ExtractHash(id int64) int64 {
+	return (id >> hashShift) & hashMask
+}
+
+func ExtractSequence(id int64) int64 {
+	return id & sequenceMask
 }
