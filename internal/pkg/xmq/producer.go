@@ -1,4 +1,4 @@
-package mqext
+package xmq
 
 import (
 	"context"
