@@ -3,7 +3,7 @@ module github.com/JrMarcco/jotice
 go 1.24
 
 require (
-	github.com/JrMarcco/easy-kit v0.0.1
+	github.com/JrMarcco/easy-kit v0.0.2
 	github.com/JrMarcco/jotice-api v0.0.3
 	github.com/confluentinc/confluent-kafka-go/v2 v2.10.0
 	github.com/golang-jwt/jwt/v5 v5.2.2

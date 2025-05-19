@@ -1,0 +1,20 @@
+profile:
+  env: "dev"
+
+etcd:
+  addr:
+    - "192.168.3.3:2379"
+  connectTimeout: "1s"
+  secure: false
+
+jwt:
+  private: "-----BEGIN PRIVATE KEY-----
+MC4CAQAwBQYDK2VwBCIEIHXEAUN6Lp8Hdq8P0Mcv9mjIG1sgPWBf1Mh+OKP5HXvC
+-----END PRIVATE KEY-----"
+  public: "-----BEGIN PUBLIC KEY-----
+MCowBQYDK2VwAyEAxCSxEyY/+A7T7EtXF7AHw4Zfklh/QdjG8fxfRFYZgY8=
+-----END PUBLIC KEY-----"
+
+cache:
+  default_expiration: 60000000000
+  cleanup_interval: 60000000000

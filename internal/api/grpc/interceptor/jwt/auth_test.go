@@ -124,9 +124,9 @@ func loadKeyPair() (ed25519.PrivateKey, ed25519.PublicKey) {
 	if priKeyBlock == nil {
 		panic("failed to decode private key PEM")
 	}
-	// PEM 块本身只标注 PUBLIC KEY（通用标签），没有专门标注 ED25519 PUBLIC KEY
-	// 所需要先用 x509 包统一使用 ParsePKCS8PrivateKey / ParsePKIXPublicKey 处理所有标准公钥格式
-	// 再类型断言转成 ed25519.PrivateKey / ed25519.PublicKey
+	// the PEM block itself is labeled public key, not specifically ed25519 public key.
+	// all standard public key formats need to be handled by the x509 package first.
+	// using ParsePKCS8PrivateKey/ParsePKIXPublicKey and then type-asserted into ed25519 PrivateKey/PublicKey.
 	priKey, err := x509.ParsePKCS8PrivateKey(priKeyBlock.Bytes)
 	if err != nil {
 		panic(err)

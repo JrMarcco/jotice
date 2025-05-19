@@ -1,7 +1,7 @@
 package ioc
 
 import (
-	logger "github.com/JrMarcco/jotice/internal/pkg/logger"
+	"github.com/JrMarcco/jotice/internal/pkg/logger"
 	"github.com/spf13/viper"
 	"go.uber.org/fx"
 	"go.uber.org/zap"

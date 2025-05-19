@@ -2,8 +2,9 @@ package retry
 
 import (
 	"fmt"
-	"github.com/JrMarcco/jotice/internal/pkg/retry/strategy"
 	"time"
+
+	"github.com/JrMarcco/easy-kit/retry"
 )
 
 type Config struct {
@@ -13,26 +14,26 @@ type Config struct {
 }
 
 type ExponentialBackoffConfig struct {
-	InitialInterval time.Duration `json:"initial_interval"`
-	MaxInterval     time.Duration `json:"max_interval"`
-	MaxRetryTime    int32         `json:"max_retry_time"`
+	InitInterval time.Duration `json:"init_interval"`
+	MaxInterval  time.Duration `json:"max_interval"`
+	MaxTimes     int32         `json:"max_times"`
 }
 
 type FixedIntervalConfig struct {
-	Interval     time.Duration `json:"interval"`
-	MaxRetryTime int32         `json:"max_retry_time"`
+	Interval time.Duration `json:"interval"`
+	MaxTimes int32         `json:"max_times"`
 }
 
-func NewRetryStrategy(cfg Config) (strategy.Strategy, error) {
+func NewRetryStrategy(cfg Config) (retry.Strategy, error) {
 	switch cfg.Type {
 	case "fixed_interval":
-		return strategy.NewFixedIntervalRetry(cfg.FixedInterval.Interval, cfg.FixedInterval.MaxRetryTime), nil
+		return retry.NewFixedIntervalStrategy(cfg.FixedInterval.Interval, cfg.FixedInterval.MaxTimes)
 	case "exponential_backoff":
-		return strategy.NewExponentialBackoffRetry(
-			cfg.ExponentialBackoff.InitialInterval,
+		return retry.NewExponentialBackoffStrategy(
+			cfg.ExponentialBackoff.InitInterval,
 			cfg.ExponentialBackoff.MaxInterval,
-			cfg.ExponentialBackoff.MaxRetryTime,
-		), nil
+			cfg.ExponentialBackoff.MaxTimes,
+		)
 	default:
 		return nil, fmt.Errorf("unknown retry strategy type: %s", cfg.Type)
 	}
