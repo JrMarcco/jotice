@@ -37,7 +37,7 @@ func (d *Dispatcher) BatchSend(ctx context.Context, ns []domain.Notification) (d
 }
 
 func (d *Dispatcher) chooseStrategy(n domain.Notification) SendStrategy {
-	if n.StrategyConfig.Strategy == domain.SendStrategyImmediate {
+	if n.StrategyConfig.Type == domain.SendStrategyImmediate {
 		return d.immediateStrategy
 	}
 

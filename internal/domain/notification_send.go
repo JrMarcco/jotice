@@ -18,17 +18,17 @@ const (
 )
 
 type SendStrategyConfig struct {
-	Strategy   SendStrategy
-	Delay      time.Duration
-	ScheduleAt time.Time
-	Start      time.Time
-	End        time.Time
-	Deadline   time.Time
+	Type       SendStrategy  `json:"type"`
+	Delay      time.Duration `json:"delay"`
+	ScheduleAt time.Time     `json:"schedule_at"`
+	Start      time.Time     `json:"start"`
+	End        time.Time     `json:"end"`
+	Deadline   time.Time     `json:"deadline"`
 }
 
 // Validate validate the strategy config
 func (c SendStrategyConfig) Validate() error {
-	switch c.Strategy {
+	switch c.Type {
 	case SendStrategyImmediate:
 		return nil
 	case SendStrategyDelayed:
@@ -56,19 +56,23 @@ func (c SendStrategyConfig) Validate() error {
 
 // CalcTimeWindow calculate the start and end time based on the strategy to send the notification
 func (c SendStrategyConfig) CalcTimeWindow() (start, end time.Time) {
-	switch c.Strategy {
+	switch c.Type {
 	case SendStrategyImmediate:
-		//
+		// immediately send
 		now := time.Now()
-		return now, now
+		const defaultEndDuration = 30 * time.Minute
+		return now, now.Add(defaultEndDuration)
 	case SendStrategyDelayed:
-		return time.Now(), time.Now().Add(c.Delay)
-	case SendStrategyScheduled:
-		return c.ScheduleAt, c.ScheduleAt
+		now := time.Now()
+		return now, now.Add(c.Delay)
+	case SendStrategyDeadline:
+		now := time.Now()
+		return now, c.Deadline
 	case SendStrategyTimeWindow:
 		return c.Start, c.End
-	case SendStrategyDeadline:
-		return c.Start.Add(-3 * time.Second), c.Deadline
+	case SendStrategyScheduled:
+		const scheduledTimeTolerance = 3 * time.Second
+		return c.Start.Add(-scheduledTimeTolerance), c.Deadline
 	default:
 		now := time.Now()
 		return now, now

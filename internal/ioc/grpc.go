@@ -1,16 +1,25 @@
 package ioc
 
 import (
+	"context"
 	"crypto/ed25519"
 	"crypto/x509"
 	"encoding/pem"
 
+	notificationv1 "github.com/JrMarcco/jotice-api/api/notification/v1"
 	grpcapi "github.com/JrMarcco/jotice/internal/api/grpc"
 	"github.com/spf13/viper"
 	clientv3 "go.etcd.io/etcd/client/v3"
+	"go.uber.org/fx"
+	"google.golang.org/grpc"
 )
 
-func InitGrpc(server grpcapi.NotificationServer, etcdClient *clientv3.Client) {
+var GrpcFxOpt = fx.Provide(
+	fx.Provide(NewGrpcServer),
+	fx.Invoke(RunGrpcServer),
+)
+
+func NewGrpcServer(server grpcapi.NotificationServer, etcdClient *clientv3.Client) *grpc.Server {
 	type Config struct {
 		priPem string `yaml:"private"`
 		pubPem string `yaml:"public"`
@@ -25,6 +34,35 @@ func InitGrpc(server grpcapi.NotificationServer, etcdClient *clientv3.Client) {
 	//priKey, pubKey := loadJwtKey(cfg.priPem, cfg.pubPem)
 	//jwtInterceptor := jwt.NewJwtAuth(priKey, pubKey).Build()
 
+	svr := grpc.NewServer()
+	notificationv1.RegisterNotificationServiceServer(svr, server)
+	notificationv1.RegisterNotificationQueryServiceServer(svr, server)
+
+	return svr
+}
+
+func RunGrpcServer(lc fx.Lifecycle, grpcSvr *grpc.Server) {
+	lc.Append(fx.Hook{
+		OnStart: func(ctx context.Context) error {
+			// TODO
+			//lis, err := net.Listen("tcp", viper.GetString("grpc.addr"))
+			//if err != nil {
+			//	return err
+			//}
+			//
+			//go func() {
+			//	if err := grpcSvr.Serve(lis); err != nil {
+			//		panic(err)
+			//	}
+			//}()
+			return nil
+		},
+		OnStop: func(ctx context.Context) error {
+			// TODO logging
+			grpcSvr.GracefulStop()
+			return nil
+		},
+	})
 }
 
 func loadJwtKey(priPem, pubPem string) (ed25519.PrivateKey, ed25519.PublicKey) {

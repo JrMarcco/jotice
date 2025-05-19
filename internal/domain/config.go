@@ -3,21 +3,21 @@ package domain
 import "github.com/JrMarcco/jotice/internal/pkg/retry"
 
 type BizConfig struct {
-	Id                uint64
-	OwnerId           uint64
-	OwnerType         string
-	ChannelConfig     *ChannelConfig
-	TransactionConfig *TransactionConfig
-	RateLimit         int32
-	QuotaConfig       *QuotaConfig
-	CallbackConfig    *CallbackConfig
-	CreateAt          int64
-	UpdateAt          int64
+	Id             uint64
+	OwnerId        uint64
+	OwnerType      string
+	ChannelConfig  *ChannelConfig
+	TxNotifConfig  *TxNotifConfig
+	RateLimit      int32
+	QuotaConfig    *QuotaConfig
+	CallbackConfig *CallbackConfig
+	CreateAt       int64
+	UpdateAt       int64
 }
 
 type ChannelConfig struct {
 	Channels    []ChannelItem `json:"channels"`
-	RetryPolicy string        `json:"retry_policy"`
+	RetryPolicy *retry.Config `json:"retry_policy"`
 }
 
 type ChannelItem struct {
@@ -26,10 +26,15 @@ type ChannelItem struct {
 	Enabled  bool   `json:"enabled"`
 }
 
-type TransactionConfig struct {
+type TxNotifConfig struct {
 	ServiceName  string        `json:"service_name"`
 	InitialDelay int32         `json:"initial_delay"`
 	RetryPolicy  *retry.Config `json:"retry_policy"`
+}
+
+type CallbackConfig struct {
+	ServiceName string        `json:"service_name"`
+	RetryPolicy *retry.Config `json:"retry_policy"`
 }
 
 type QuotaConfig struct {
@@ -45,9 +50,4 @@ type DailyQuotaConfig struct {
 type MonthlyQuotaConfig struct {
 	SMS   int32 `json:"sms"`
 	Email int32 `json:"email"`
-}
-
-type CallbackConfig struct {
-	ServiceName string        `json:"service_name"`
-	RetryPolicy *retry.Config `json:"retry_policy"`
 }

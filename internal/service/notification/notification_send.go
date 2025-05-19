@@ -121,7 +121,7 @@ func (s *DefaultSendService) BatchAsyncSend(ctx context.Context, ns []domain.Not
 	// group notifications by strategy
 	strategyGroups := make(map[string][]domain.Notification)
 	for _, n := range ns {
-		strategy := string(n.StrategyConfig.Strategy)
+		strategy := string(n.StrategyConfig.Type)
 		strategyGroups[strategy] = append(strategyGroups[strategy], n)
 	}
 
