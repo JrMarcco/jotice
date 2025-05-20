@@ -12,6 +12,14 @@ import (
 	"github.com/sony/sonyflake"
 )
 
+//go:generate mockgen -source=./types.go -destination=./mock/send_service.mock.go -package=notificationmock -type=SendService
+type SendService interface {
+	Send(ctx context.Context, n domain.Notification) (domain.SendResp, error)
+	AsyncSend(ctx context.Context, n domain.Notification) (domain.SendResp, error)
+	BatchSend(ctx context.Context, ns []domain.Notification) (domain.BatchSendResp, error)
+	BatchAsyncSend(ctx context.Context, ns []domain.Notification) (domain.BatchAsyncSendResp, error)
+}
+
 var _ SendService = (*DefaultSendService)(nil)
 
 type DefaultSendService struct {

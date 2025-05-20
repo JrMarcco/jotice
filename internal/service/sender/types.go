@@ -4,7 +4,6 @@ import (
 	"context"
 
 	"github.com/JrMarcco/jotice/internal/domain"
-	"github.com/JrMarcco/jotice/internal/pkg/logger"
 	"github.com/JrMarcco/jotice/internal/repository"
 	"github.com/JrMarcco/jotice/internal/service/channel"
 	"github.com/JrMarcco/jotice/internal/service/config"
@@ -22,5 +21,4 @@ type DefaultSender struct {
 	bizConfigSvc config.Service
 	callbackSvc  callback.Service
 	channel      channel.Channel
-	logger       logger.Logger
 }

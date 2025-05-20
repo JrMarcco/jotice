@@ -1,4 +1,4 @@
-package id
+package snowflake
 
 import (
 	"strconv"
@@ -23,8 +23,7 @@ func TestGenerator_NextId(t *testing.T) {
 		t.Errorf("hashVal should be in range [0, 1024), but got %d", hashVal)
 	}
 
-	hashKey := strconv.FormatUint(bizId, 10) + ":" + bizKey
-	wantHashVal := xxhash.Sum64String(hashKey)
+	wantHashVal := xxhash.Sum64String(HashKey(bizId, bizKey))
 	assert.Equal(t, hashVal, wantHashVal%1024)
 
 	seq := ExtractSequence(id)

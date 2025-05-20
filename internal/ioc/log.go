@@ -1,7 +1,6 @@
 package ioc
 
 import (
-	"github.com/JrMarcco/jotice/internal/pkg/logger"
 	"github.com/spf13/viper"
 	"go.uber.org/fx"
 	"go.uber.org/zap"
@@ -14,7 +13,7 @@ var LoggerFxOpt = fx.Provide(
 	),
 )
 
-func InitLogger() *logger.ZapLogger {
+func InitLogger() *zap.Logger {
 	type config struct {
 		Env string `yaml:"env"`
 	}
@@ -38,6 +37,5 @@ func InitLogger() *logger.ZapLogger {
 	if err != nil {
 		panic(err)
 	}
-
-	return logger.NewZapLogger(zl)
+	return zl
 }

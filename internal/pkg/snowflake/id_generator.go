@@ -1,4 +1,4 @@
-package id
+package snowflake
 
 import (
 	"strconv"
@@ -48,12 +48,15 @@ func NewGenerator() *Generator {
 //   - 12 bits for a sequence, the sequence is the auto incr sequence number of the id.
 func (g *Generator) NextId(bizId uint64, bizKey string) uint64 {
 	timestamp := uint64(time.Now().UnixMilli()) - epochMillis
-	hashKey := strconv.FormatUint(bizId, 10) + ":" + bizKey
-	hashVal := xxhash.Sum64String(hashKey)
+	hashVal := xxhash.Sum64String(HashKey(bizId, bizKey))
 
 	seq := atomic.AddUint64(&g.sequence, 1) - 1
 
 	return (timestamp&timestampMask)<<timestampShift | (hashVal&hashMask)<<hashShift | (seq & sequenceMask)
+}
+
+func HashKey(bizId uint64, bizKey string) string {
+	return strconv.FormatUint(bizId, 10) + ":" + bizKey
 }
 
 func ExtractTimestamp(id uint64) time.Time {

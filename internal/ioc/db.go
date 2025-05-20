@@ -36,7 +36,7 @@ func initDB() *gorm.DB {
 }
 
 func waitForDBSetup(dsn string) {
-	sqlDB, err := sql.Open("postgres", dsn)
+	sqlDB, err := sql.Open("mysql", dsn)
 	defer func(sqlDB *sql.DB) { _ = sqlDB.Close() }(sqlDB)
 	if err != nil {
 		panic(err)
