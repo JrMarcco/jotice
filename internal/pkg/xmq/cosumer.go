@@ -6,7 +6,6 @@ import (
 	"github.com/confluentinc/confluent-kafka-go/v2/kafka"
 )
 
-//go:generate mockgen -source=./consumer.go -package
 type Consumer interface {
 	Read(timeout time.Duration) (*kafka.Message, error)
 	Commit(m *kafka.Message) ([]kafka.TopicPartition, error)
